@@ -121,5 +121,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun View.sayAgain1(): Context {
+        return this.context;
+    }
 
 }

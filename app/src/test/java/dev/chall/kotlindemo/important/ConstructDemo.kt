@@ -15,6 +15,8 @@ package important
 
 class ConstructDemo(val name: String, var age: Int) {
 
+    var aValue ="just a value"
+
     companion object {
 
         var staticString = "static object"
