@@ -71,16 +71,46 @@ class ExampleUnitTest {
             print("$inItem ;")
         }
 
-        var fucusClass = FocusClass()
-//        useMethod<FocusClass>()
+        sayHello("Chall")
+
+        printlnList("a", "b", "c")
+
+        println("sayBye result->${sayBye("a", "b", "c")}")
+        var time = System.currentTimeMillis()
+        testTailrec(-1)
+        println("length is " + (System.currentTimeMillis() - time))
+        try {
+            testTailrec(-1)
+        } catch (e: Exception) {
+
+        }
     }
 
-    fun <T>useMethod(itm:T) {
-
+    fun sayHello(who: String, msg: String = "Hello") {
+        println("$who - said - $msg")
     }
 
-    class FocusClass {
+    fun printlnList(vararg memList: String) {
+        for (mem in memList) {
+            println("mem is " + mem)
+        }
+    }
 
+    fun <T> sayBye(vararg msg: T): List<T> {
+        return msg.asList()
+    }
+
+    tailrec fun testTailrec(x: Int) {
+        if (x > 30000) {
+            println("testTailrec is end")
+        } else {
+            println("testTailrec to next++")
+//            try {
+                testTailrec(x + 1)
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+        }
     }
 }
 

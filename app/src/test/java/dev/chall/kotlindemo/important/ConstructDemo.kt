@@ -15,15 +15,16 @@ package important
 
 class ConstructDemo(val name: String, var age: Int) {
 
-    var aValue ="just a value"
+    var aValue = "just a value"
 
     companion object {
 
+        final var finalStaticString = "static object"
         var staticString = "static object"
         var staticInt = 1
 
         fun doStatic(value: String = "value"): Unit {
-
+            println("doStatic value is $value")
         }
 
         fun printlnStatic(msg: String) {

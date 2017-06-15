@@ -9,34 +9,22 @@ import org.junit.Test
  * KotlinSample\files\Q1.png
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
-class InlineDemo {
+class InfixDemo {
     @Test
     @Throws(Exception::class)
     fun addition_isCorrect() {
-        println("sum resuslt is ${sum(1, 2)}")
-
-        println("sum resuslt is ${sub(1, 2, ::subReal/*顶层引入*/)}")
-
         this doPrint "hahah"
+        println("int(1)-plus1(2) -> ${1 plus1 2}")
     }
 
-    infix fun doPrint(msg:String){
+    infix fun doPrint(msg: String) {
         println(msg)
     }
-}
 
-inline fun sum(a: Int, b: Int): Int {
-    return a + b
+    infix fun Int.plus1(value: Int): Int {
+        return this + value + 1
+    }
 }
-
-inline fun sub(a: Int, b: Int, noinline doSub: (a1: Int, b1: Int) -> Int): Int {
-    return doSub(a, b)
-}
-
-fun subReal(a: Int, b: Int): Int {
-    return a - b
-}
-
 
 
 
