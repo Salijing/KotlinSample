@@ -75,15 +75,24 @@ class ExampleUnitTest {
 
         printlnList("a", "b", "c")
 
-        println("sayBye result->${sayBye("a", "b", "c")}")
-        var time = System.currentTimeMillis()
-        testTailrec(-1)
-        println("length is " + (System.currentTimeMillis() - time))
-        try {
-            testTailrec(-1)
-        } catch (e: Exception) {
+//        testTailrec(-1)
 
-        }
+        var variable1: String? = null
+        var variable2 = variable1?.length ?: -1
+        println("variable2 -> ${variable2}")
+        println("variable2 isNull -> ${variable2 == null}")
+
+        testNull(null)
+
+        var variable3: String? = null
+        var variable4: String = "我不可以为空的"
+        println("variable4 is ${variable4!!.length}")
+//        println("variable3 is ${variable3!!.length}")
+
+        val aInt: Int? = variable4 as? Int
+        println("aInt is $aInt")
+
+
     }
 
     fun sayHello(who: String, msg: String = "Hello") {
@@ -106,18 +115,14 @@ class ExampleUnitTest {
         } else {
             println("testTailrec to next++")
 //            try {
-                testTailrec(x + 1)
+            testTailrec(x + 1)
 //            } catch (e: Exception) {
 //                e.printStackTrace()
 //            }
         }
     }
+
+    fun testNull(msg: String?) {
+        println("msg is $msg, isNull -> ${msg.isNullOrEmpty()}")
+    }
 }
-
-
-
-
-
-
-
-

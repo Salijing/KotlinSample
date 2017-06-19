@@ -13,7 +13,7 @@ package important
  * @since [产品/模块版本]
  */
 
-class ConstructDemo(val name: String, var age: Int) {
+class ConstructDemo(val name: String, var age: Int = 0, doSomething: () -> Unit) {
 
     var aValue = "just a value"
 
@@ -32,13 +32,19 @@ class ConstructDemo(val name: String, var age: Int) {
         }
     }
 
-    constructor(ii: Int) : this(String(), 1) {
+    constructor(ii: Int) : this(String(), 1, ::sayHello) {
 
         println("staticString -> $staticString")
         println("this is constructor - Int")
     }
 
-    constructor(ss: String) : this(String(), 1) {
+    constructor(bb: Boolean = false) : this(String(), 1, ::sayHello) {
+
+        println("staticString -> $staticString")
+        println("this is constructor - Boolean")
+    }
+
+    constructor(ss: String) : this(String(), 1, ::sayHello) {
 
         println("staticString -> $staticString")
         println("this is constructor - String")
@@ -48,4 +54,32 @@ class ConstructDemo(val name: String, var age: Int) {
         println("staticInt ->$staticInt")
         println("this is init")
     }
+}
+
+private class ConstructDemoOther {
+
+    constructor(bb: Boolean = false) {
+        println("this is constructor - Boolean")
+    }
+
+    constructor(ss: Float = 1f) {
+        println("this is constructor - String")
+    }
+
+    constructor(i: Int, bb: Boolean = false) {
+        println("this is constructor - Boolean")
+    }
+
+    constructor(i: Int, ss: Float = 1f) {
+        println("this is constructor - String")
+    }
+}
+
+fun sayHello() {
+    var const1 = ConstructDemo("", 1, ::sayHello)
+    var const2 = ConstructDemo(1)
+    var const3 = ConstructDemo()
+    var const4 = ConstructDemo("")
+
+//    var const5 = ConstructDemoOther(1)
 }
