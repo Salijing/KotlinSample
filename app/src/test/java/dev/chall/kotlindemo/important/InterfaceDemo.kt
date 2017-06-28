@@ -30,11 +30,18 @@ interface InterfaceDemo {
     }
 }
 
-class extendInterface(override var variable1: Int) : InterfaceDemo {
+class ImplInterface(override var variable1: Int) : InterfaceDemo {
 
     override fun execute() {
         InterfaceDemo.variable2 = 3
 //        InterfaceDemo.variable3 =""
+    }
+}
+
+class ImplInterface1() : InterfaceDemo {
+    override var variable1: Int=1
+
+    override fun execute() {
     }
 }
 
@@ -55,6 +62,9 @@ class TestMoreImpl {
     @Test
     fun doTest() {
         MoreImpl(1, -1).execute(101)
+
+        var impl1 = ImplInterface1()
+        println(impl1.variable1)
     }
 
     class MoreImpl(override var variable1: Int, override var variable2: Int) : InterfaceDemo, InterfaceMore {
