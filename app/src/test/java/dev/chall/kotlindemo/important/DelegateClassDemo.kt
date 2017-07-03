@@ -12,7 +12,6 @@ import org.junit.runners.JUnit4
  */
 @RunWith(JUnit4::class)
 class DelegateClassDemo {
-
     @Test
     fun doDelegateTest() {
         var normal = NormalDelegateImpl(ToDelegateImpl())
@@ -66,7 +65,7 @@ class DelegateClassDemo {
             println("doPrintln(被委托)：$msg")
         }
 
-        fun selfFun(){
+        fun selfFun() {
 
         }
     }

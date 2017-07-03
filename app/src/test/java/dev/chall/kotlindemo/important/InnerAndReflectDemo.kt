@@ -21,6 +21,10 @@ class InnerAndReflectDemo(context: Context?) : ViewGroup(context) {
 
     public var test123 = "haha"
 
+    constructor(i: Int) : this(null) {
+
+    }
+
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

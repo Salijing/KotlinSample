@@ -1,7 +1,11 @@
 package chall.dev.kotlindemo
 
+import android.os.Build
+import android.support.annotation.RequiresApi
 import important.ConstructDemo
 import org.junit.Test
+import java.util.*
+import java.util.Map
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -9,19 +13,51 @@ import org.junit.Test
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
 class CollectionDemo {
+    @RequiresApi(Build.VERSION_CODES.N)
     @Test
     @Throws(Exception::class)
     fun addition_isCorrect() {
+        var map = HashMap<String, Int>()
+        map["1"] = 1
+        println("hasmap[1] is ${map["1"]}")
+        map["B"] = 2
+        println("hasmap[2] is ${map.get("2")}")
+        println("hasmap[12] is ${map.get("12")}")
+        for (entry in map) {
+            println("for: key is ${entry.key}; value is ${entry.value}; is Map.Entry？ ${entry is Map.Entry<*, *>}")
+        }
+        map.forEach { t, u -> println("forEach: key is " + t + "; value is " + u) }
 
         var testMap = mapOf<String, Int>("a" to 1, Pair("key", 1))
-        println("a is ${testMap.get("a")}")
+        println("a is ${testMap.get("a")}+${testMap is LinkedHashMap}")
 
         var testMutableMap = mutableMapOf<String, Int>("a" to 1, Pair("b", 2))
         println("a is ${testMutableMap["a"]}")
         testMutableMap.remove("a")
         println("a is ${testMutableMap["a"]}")
-        testMutableMap["a"] = 1
+        testMutableMap["a"] = 121
         println("a is ${testMutableMap["a"]}")
+
+        var writeList = ArrayList<String>()
+        writeList.add("A")
+        writeList.add("B")
+        writeList.add("C")
+        for (value in writeList) {
+            println("for: writeList value is " + value)
+        }
+        writeList.forEachIndexed { index, s ->
+            println("forEachIndexed: writeList value is " + s + "; index is " + index)
+        }
+
+        writeList = arrayListOf()
+        writeList.add("Q")
+
+        var writeLinkedList: LinkedList<String> =LinkedList<String>()
+        writeLinkedList.add("LinkedL0")
+        println("writeLinkedList[0] is "+writeLinkedList[0])
+
+        writeList = mutableListOf<String>() as ArrayList<String>
+        writeList.add("W")
 
         var testList = listOf(1, 2, 3, 4, 5, -10)
         println("testList has = 5 -> ${testList.any { it == 5 }}")
@@ -97,13 +133,18 @@ class CollectionDemo {
         println("list-sortBy :${testList.sortedBy() { it * -1 }}")
         println("list-sortedDescending :${testList.sortedDescending()}")
 
+        var testSet = mutableSetOf<String>("A","B")
+        testSet.add("C")
+        println("testSet -> ${testSet.remove("A")}+${testSet.size}")
+        println("testSet ->+${testSet}")
+
 
         var aaa = ConstructDemo(1)
         println(aaa.age)
         var ss: String? = null
         println((ss?.length ?: println("hahahha")))
 
-        var stringList = listOf("aa11231231", "aw2")
+        var stringList = listOf("aa11231231", "aw2")//按照顺序，依据首字母的值进行判断
         println("max is ${stringList.max()}")
 
     }

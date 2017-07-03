@@ -42,5 +42,3 @@ fun subReal(a: Int, b: Int): Int {
 
 
 
-
-
