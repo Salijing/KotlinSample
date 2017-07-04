@@ -23,7 +23,9 @@ private var varPkgNoAnnoprivate = "varPkgNoAnno"
 internal var varPkgNoAnnoInternal = "varPkgNoAnno"
 //lateinit var varPkglateinit= "varPkglateinit"//lateinit不可写在包级
 @JvmField var varPkgJvmField = "varPkgJvmField"//JvmStatic只可在object中；文件不能使用@file:JvmMultifileClass注解，两者不可共存
+@JvmField internal var varPkgJvmFieldInternal = "varPkgNoAnno"
 
+internal var varClassNoAnnoInternal = "varClassNoAnnoInternal"
 fun funNoAnno() {//不支持@JvmField @JvmStatic注解
     println("funNoAnno")
 }
@@ -32,13 +34,17 @@ fun funNoAnno() {//不支持@JvmField @JvmStatic注解
 
 /*begin================================================类级使用=====================================begin*/
 @RunWith(JUnit4::class)
-class Kotlin4Java {
+open class Kotlin4Java {
 
     lateinit var varClassLateinit: String//lateinit不需要注解对外体现，不像const，其不具备static属性，也可通过set、get操作
     var varClassNoAnno = "varNoAnno"
-    @JvmField var varClassJvmField = "varJvmField"//JvmStatic只允许在object中
+    internal var varClassNoAnnoInternal = "varClassNoAnnoInternal"
+    @JvmField public var varClassJvmFieldPublic = "varClassJvmFieldPublic"//JvmStatic只允许在object中
+    @JvmField internal var varClassJvmFieldInternal = "varClassJvmFieldInternal"//JvmStatic只允许在object中
+    @JvmField protected var varClassJvmFieldProtected = "varClassJvmFieldProtected"//JvmStatic只允许在object中
+//    @JvmField private var varClassJvmFieldPrivate = "varJvmField"//JvmStatic只允许在object中
 
-    constructor() {}
+    private constructor() {}
     constructor(index: Int) {}
     constructor(index: Int, type: Int, name: String = "") {}
 
@@ -69,6 +75,15 @@ class Kotlin4Java {
     @Test
     fun doTest() {
     }
+
+    @JvmOverloads//不加java类只能重写全部的参数
+    open fun overideFun(x: Int, y: Int = 1, z: Int = 2) {
+
+    }
+
+    fun inputClass(cc: Kotlin4Java) {
+
+    }
 }
 
 /*end================================================类级使用=======================================end*/
@@ -76,10 +91,13 @@ class Kotlin4Java {
 /*begin================================================Obejct使用=====================================begin*/
 object PkgObject {
     const val objectConst = ""
-    lateinit var objectLate: String
-    @JvmStatic var varObjectJvmStatic = ""
+    lateinit var objectLateinit: String
+    @JvmStatic var varObjectJvmStatic = "varObjectJvmStatic old-value"
+    @JvmStatic internal var varObjectJvmStaticInternal = "varObjectJvmStaticInternal"
     @JvmField var varObjectJvmField = ""
+    @JvmField internal var varObjectJvmFieldInternal = "varObjectJvmFieldInternal"
     var varNoAnno = ""
+    internal var varNoAnnoInternal = "varNoAnnoInternal"
 
     @JvmStatic fun funObjectJvmStatic() {}
     fun funObjectNoAnno() {}
