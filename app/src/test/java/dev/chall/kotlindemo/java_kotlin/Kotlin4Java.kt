@@ -7,10 +7,12 @@ package dev.chall.kotlindemo.java_kotlin
 import android.renderscript.Int2
 import android.text.InputType
 import android.util.Log
+import dev.chall.kotlindemo.important.extendTest2
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import java.io.IOException
+import java.util.zip.InflaterOutputStream
 
 /**
  * Created by chall on 2017/6/29.
@@ -19,6 +21,7 @@ import java.io.IOException
 /*begin================================================包级使用=======================================begin*/
 const val valPkgConst = 1//无需注解，直接对外体现，相当于java里的static final，可通过问修饰符控制
 var varPkgNoAnnoPublic = "varPkgNoAnno"//通过访问修饰符控制调用
+var isPkgNoAnnoValue = false//通过访问修饰符控制调用
 private var varPkgNoAnnoprivate = "varPkgNoAnno"
 internal var varPkgNoAnnoInternal = "varPkgNoAnno"
 //lateinit var varPkglateinit= "varPkglateinit"//lateinit不可写在包级
@@ -33,11 +36,11 @@ fun funNoAnno() {//不支持@JvmField @JvmStatic注解
 /*end================================================包级使用=======================================end*/
 
 /*begin================================================类级使用=====================================begin*/
-@RunWith(JUnit4::class)
 open class Kotlin4Java {
 
     lateinit var varClassLateinit: String//lateinit不需要注解对外体现，不像const，其不具备static属性，也可通过set、get操作
     var varClassNoAnno = "varNoAnno"
+    var isClassNoAnno = false
     internal var varClassNoAnnoInternal = "varClassNoAnnoInternal"
     @JvmField public var varClassJvmFieldPublic = "varClassJvmFieldPublic"//JvmStatic只允许在object中
     @JvmField internal var varClassJvmFieldInternal = "varClassJvmFieldInternal"//JvmStatic只允许在object中
@@ -71,18 +74,15 @@ open class Kotlin4Java {
     @JvmName("getVarClassNoAnnoByFun")
     fun getVarClassNoAnno() = "class中方法调用"
 
-
-    @Test
-    fun doTest() {
-    }
-
     @JvmOverloads//不加java类只能重写全部的参数
     open fun overideFun(x: Int, y: Int = 1, z: Int = 2) {
-
     }
 
-    fun inputClass(cc: Kotlin4Java) {
+    fun inputClass(cc: Kotlin4Java) {}
 
+    @Throws(IOException::class) //这样，1.java代码才能精确捕获IOException；2.有异常提示
+    fun funThrowsException() {
+        throw IOException()
     }
 }
 
@@ -106,3 +106,38 @@ object PkgObject {
 /*end================================================Obejct使用=======================================end*/
 
 
+fun Kotlin4Java.sayHey(msg: String) {
+    println(msg)
+}
+
+//这样写会死的惨惨的，get请求flag值，于是又去掉get，陷入死循环了，set也是这也（这边一般不设置变量自身，而是设置对应类的属性）
+var Kotlin4Java.flag: String
+    get() = this.flag
+    set(value) {
+        this.flag = value
+    }
+
+var Kotlin4Java.varClassNoAnnoValue: String
+    get() = this.varClassNoAnno
+    set(value) {
+        this.varClassNoAnno = value
+    }
+
+
+@RunWith(JUnit4::class)
+class ThisTest() {
+    @Test
+    fun doTest() {
+        var kotlinTest = Kotlin4Java(1)
+        println(kotlinTest.varClassNoAnnoValue)
+        kotlinTest.varClassNoAnnoValue = "new value"
+        println(kotlinTest.varClassNoAnnoValue)
+    }
+
+
+}
+
+fun asdas(){
+    var kk = Kotlin4Java(1)
+    kk.varClassLateinit
+}

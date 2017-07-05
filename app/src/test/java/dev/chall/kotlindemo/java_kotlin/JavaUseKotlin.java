@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 import kotlin.jvm.JvmClassMappingKt;
@@ -32,6 +33,10 @@ public class JavaUseKotlin {
         Kotlin2JavaSample.setVarPkgNoAnnoPublic("设置包级无field注解变量-public");
         Kotlin2JavaSample.getVarPkgNoAnnoInternal();
         Kotlin2JavaSample.setVarPkgNoAnnoInternal("设置包级无field注解变量-internal");
+
+        Kotlin2JavaSample.isPkgNoAnnoValue();
+        Kotlin2JavaSample.setPkgNoAnnoValue(true);
+
         /*通过文件生成类，是无法生成对象的哦。（Error:(31, 47) 错误: 找不到符号;符号:   构造器 Kotlin2JavaSample()）*/
         //Kotlin2JavaSample kotlin2JavaSample = new Kotlin2JavaSample();
         //kotlin2JavaSample.getVarPkgNoAnno();
@@ -54,6 +59,10 @@ public class JavaUseKotlin {
                 kotlin4Java.varClassJvmFieldProtected;//kotlin-protected->java-protected(不同包不可调用)
         kotlin4Java.getVarClassNoAnno();
         kotlin4Java.setVarClassNoAnno("设置可访问无注解变量的值");
+
+        kotlin4Java.isClassNoAnno();
+        kotlin4Java.setClassNoAnno(true);
+
         String valClassLateinit = kotlin4Java.varClassLateinit;//lateinit
         //选调用get会因为varClassLateinit未初始化而报错：kotlin.UninitializedPropertyAccessException: lateinit
         // property varClassLateinit has not been initialized
@@ -76,9 +85,13 @@ public class JavaUseKotlin {
         kotlin4Java.funClassNoAnno();
         kotlin4Java.getVarClassNoAnno();//获取变量也是方法哦
         kotlin4Java.getVarClassNoAnnoByFun();
-
+        Kotlin2JavaSample.sayHey(kotlin4Java, "haha, form java");
+        System.out.println("start-flag-> " + Kotlin2JavaSample.getVarClassNoAnnoValue(kotlin4Java));
+        Kotlin2JavaSample.setVarClassNoAnnoValue(kotlin4Java, "give a new-value");
+        System.out.println("end-flag -> " + Kotlin2JavaSample.getVarClassNoAnnoValue(kotlin4Java));
         //kotlin.jvm.JvmClassMappingKt.getKotlinClass(KClass)  反射获取Kotlin的类
-        Iterator<KFunction<Kotlin4Java>> kotlin4JavaIterator = JvmClassMappingKt.getKotlinClass(Kotlin4Java.class).getConstructors().iterator();
+        Iterator<KFunction<Kotlin4Java>> kotlin4JavaIterator = JvmClassMappingKt.getKotlinClass(
+                Kotlin4Java.class).getConstructors().iterator();
         kotlin4JavaIterator.next();
         kotlin4Java.inputClass(kotlin4JavaIterator.next().call(1));//通过反射获取类对象
 
@@ -126,8 +139,11 @@ public class JavaUseKotlin {
         initLate.setVarClassLateinit("");
         initLate.getVarClassLateinit();
 
-
-//        String sad = Kotlin2JavaSample.varPkgNoAnnoInternal;
+        try {
+            kotlin4Java.funThrowsException();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
