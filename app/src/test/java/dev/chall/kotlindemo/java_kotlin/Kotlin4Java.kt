@@ -128,16 +128,27 @@ var Kotlin4Java.varClassNoAnnoValue: String
 class ThisTest() {
     @Test
     fun doTest() {
+
+        var value = String() ?: println("is null")//不为空返回自身
+
+
         var kotlinTest = Kotlin4Java(1)
         println(kotlinTest.varClassNoAnnoValue)
         kotlinTest.varClassNoAnnoValue = "new value"
         println(kotlinTest.varClassNoAnnoValue)
+        mmap = mmap1
+        throwError()
+
+
     }
 
 
-}
+    var mmap: MutableMap<String, String>? = null;
+    var mmap1 = mutableMapOf<String, String>()
 
-fun asdas(){
-    var kk = Kotlin4Java(1)
-    kk.varClassLateinit
+
+    private fun throwError(): Nothing {//Nothing啥都木有,用来表达永不返回的函数
+        mmap?.put("","2")
+        throw IllegalArgumentException("Name required")//crash，无返回
+    }
 }
